@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import AllUsersData from "./components/AllUserData";
 import "./App.css";
 
 function App() {
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
+  const getUserAxios = () => {
     axios
       .get("http://localhost:3001/users")
       .then((res) => {
@@ -16,6 +17,9 @@ function App() {
       .catch((err) => {
         console.log("err from axios", err.message);
       });
+  };
+  useEffect(() => {
+    getUserAxios();
   }, []);
 
   console.log("users", users);
@@ -28,10 +32,15 @@ function App() {
   });
 
   return (
-    <div>
-      <p>HTTP</p>
-      {allUsersHTML}
-    </div>
+    <>
+      <div>
+        <p>HTTP</p>
+        {allUsersHTML}
+      </div>
+      <div>
+        <AllUsersData getUserAxios={getUserAxios} />
+      </div>
+    </>
   );
 }
 
